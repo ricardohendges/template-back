@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm version -f patch -m "🔖 version: v-%s Gerada automaticamente no push"
+git tag | xargs git tag -d

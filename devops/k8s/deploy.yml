@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-api-access
+  namespace: $K8S_NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-access
+  template:
+    metadata:
+      labels:
+        app: api-access
+    spec:
+      containers:
+        - image: $IMAGE
+          imagePullPolicy: IfNotPresent
+          name: api-access
+          env:
+            - name: APPLICATION_DOMAIN
+              value: $APPLICATION_DOMAIN
+            - name: PORT_SERVER
+              value: $PORT_SERVER
+            - name: NODE_ENV
+              value: $NODE_ENV
+            - name: URL_DOCUMENTACAO
+              value: $URL_DOCUMENTACAO
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: dass-webapp
+                  key: user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: dass-webapp
+                  key: password
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: dass-webapp
+                  key: connect-string
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: port
+            - name: CERT_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-auth
+                  key: cert
+            - name: CERT
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-perfil
+                  key: cert
+            - name: PRIVATE
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-perfil
+                  key: private
+          resources: {}
+          ports:
+            - name: http
+              containerPort: $PORT_SERVER
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      imagePullSecrets: 
+        - name: dass-registry

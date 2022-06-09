@@ -1,0 +1,36 @@
+{
+  "name": "template-back",
+  "version": "1.0.0",
+  "description": "Template para desenvolvimento Backend. Grupo Dass",
+  "main": "index.js",
+  "scripts": {
+    "commit": "git-cz",
+    "prepare": "husky install",
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js",
+    "test": "jest --detectOpenHandles",
+    "lint": "eslint --ext .js,.jsx . --ignore-pattern views/",
+    "lint:fix": "eslint --fix --ext .js,.jsx . --ignore-pattern views/"
+  },
+  "keywords": [],
+  "author": "Ricardo Hendges<ricardo.hendges@grupodass.com.br>",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mdl-oracle": "git+ssh://git@10.100.0.22:7999/mdl/mdl-oracle.git#v1.0.43"
+  },
+  "devDependencies": {
+    "commitlint-config-gitmoji": "^2.2.5",
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3",
+    "swagger-autogen": "^2.21.2",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
+  }
+}

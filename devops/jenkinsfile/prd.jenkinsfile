@@ -1,0 +1,133 @@
+pipeline {
+  environment {
+    // defaults = NÃO TEMOS NECESSIDADE DE MODIFICAR!
+    EMAIL_NOTIFICACAO = 'ricardo.hendges@grupodass.com.br'
+    LOG = ''
+
+    K8S_HML_CREDENTIAL = 'dass-hml-kubeconfig'
+    K8S_YAML_PATH_HML = 'devops/k8s/deploy.yml'
+
+    REGISTER = 'harbor.dass.interno'
+    REGISTER_CREDENTIAL = 'dass-harbor-registry'
+
+    DOCKER_FILE = 'Dockerfile'
+    TAG_HML = "hml-"
+    BRANCH_NAME = "dev"
+
+    // Alterar conforme necessário!.
+    K8S_NAMESPACE = 'dass-lgpd'
+    PROJECT = 'api-dass'
+    DOCKER_IMAGE_NAME = 'api-access'
+    GIT_REPOSITORY = 'https://sga.grupodass.com.br/bitbucket/scm/api/api-access.git'
+
+    // Variáveis de ambiente, ajuste e inclua quando necessário!    
+    PORT_SERVER="3010"
+    NODE_ENV="dev"
+    APPLICATION_DOMAIN="	https://lgpdhml.grupodass.com.br"
+  }
+
+  agent {
+    label 'jenkins-jenkins-agent'
+  }
+
+  stages {
+    //===============================================================================
+    stage ('[EMAIL] Mensagem de inicio') {
+      steps {
+        script {
+          def date = new Date()
+          LOG = "STARTED Job  ${DOCKER_IMAGE_NAME} - BRANCH: ${BRANCH_NAME} <br>Horário de Inicio: " + 
+                date.format("d/MM/yyyy HH:mm") + "<br>"
+        }
+      }
+    }
+    //===============================================================================
+    stage('Cloning from Bitbucket') {
+      steps {
+        git branch: 'dev', 
+            credentialsId: 'Bitbucket', 
+            url: "${GIT_REPOSITORY}"
+      }
+    }
+    //===============================================================================
+    stage("[HML] - Build") {
+      when {
+        branch 'dev'
+      }
+      steps {
+        script {
+          sh 'docker --version'
+          def tagVersion = "${TAG_HML}" + sh(returnStdout: true,
+            script: "sed -nE 's/^\\s*\"version\": \"(.*?)\",\$/v\\1/p' package.json").trim()
+          env.IMG_NAME = PROJECT + "/${DOCKER_IMAGE_NAME}:${tagVersion}"
+          env.IMAGE = "${REGISTER}/${env.IMG_NAME}"
+
+          docker.withRegistry("http://${REGISTER}", "${REGISTER_CREDENTIAL}") {
+            DOCKER_IMAGE = docker.build(env.IMAGE, " . -f ./${DOCKER_FILE} --build-arg NODE_ENV=production")
+          }
+          LOG = "${LOG} <br>Build da imagem: ${env.IMG_NAME}<br>"
+        }
+      }
+    }
+    //===============================================================================
+    stage("[HML] - Push") {
+      when { branch 'dev' }
+      steps{
+        script{
+          docker.withRegistry("http://${REGISTER}", "${REGISTER_CREDENTIAL}") {
+            DOCKER_IMAGE.push()
+          }
+          LOG = "${LOG} <br>Push da imagem: ${env.IMG_NAME}<br>"
+        }
+      }
+    }
+    //===============================================================================
+    stage("[HML] - Deploy") {
+      when {
+        branch 'dev'
+      }
+      steps{
+        script {
+          env.IMAGE = IMAGE
+          kubernetesDeploy(
+            kubeconfigId: "${K8S_HML_CREDENTIAL}", 
+            configs: "${K8S_YAML_PATH_HML}", 
+            enableConfigSubstitution: true
+          )
+          LOG = "${LOG} <br>Deploy: ${env.IMG_NAME}<br>"
+        }
+      }
+    }
+    //===============================================================================
+    stage('[ALL] REMOVE LOCAL IMAGE') {
+      steps {
+        script {
+          sh("docker rmi -f ${env.IMG_NAME} || :")
+          LOG = "${LOG} <br>Remover imagens antigas: ${env.IMG_NAME}<br>"
+        }
+      }
+    }
+    //===============================================================================
+    stage('[EMAIL] EMAIL BODY') {
+      steps{
+        script{
+          def date = new Date()
+          LOG = "${LOG} Fim ${DOCKER_IMAGE_NAME} - BRANCH: ${BRANCH_NAME} <p> " +
+            "<a href='${env.BUILD_URL}'> Ver console aqui </a> </p> " +
+            "Horário de Finalização: " + date.format("d/MM/yyyy HH:mm")
+        }
+      }
+    }
+  }
+  //===============================================================================
+
+  //post {
+    //always {
+    //mail to: "${EMAIL_NOTIFICACAO}",
+    //charset: 'UTF-8',
+    //mimeType: 'text/html',
+    //subject: "${currentBuild.result} of pipeline Jenkins: ${currentBuild.fullDisplayName}",
+    //body: "<br>${LOG}<br>"
+    //}
+  //}
+}
