@@ -23,7 +23,9 @@
     "mdl-oracle": "git+ssh://git@10.100.0.22:7999/mdl/mdl-oracle.git#v1.0.43"
   },
   "devDependencies": {
+    "commitizen": "^4.2.4",
     "commitlint-config-gitmoji": "^2.2.5",
+    "cz-customizable": "^6.3.0",
     "eslint": "^8.16.0",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
