@@ -1,6 +1,6 @@
 {
   "name": "template-back",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Template para desenvolvimento Backend.",
   "main": "index.js",
   "scripts": {
