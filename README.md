@@ -1,8 +1,6 @@
-# GRUPO DASS - TEMPLATE-BACK
+# TEMPLATE-BACK
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://sga.grupodass.com.br/bitbucket/scm/ds/ds-tmpl-back.git)
-
-[![Grupo Dass](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR45pjkeFfUaMbsVFS3lL2uA1f_5s2QCbOziw&usqp=CAU)](http://www.grupodass.com.br/)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)]
 
 # SETUP
 ### Conexão com banco de dados
