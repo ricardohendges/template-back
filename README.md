@@ -3,14 +3,16 @@
 ![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
 
 # SETUP
-### Conexão com banco de dados
+### Conexão com banco de dados - PG
 
-> Para executar a conexão com banco de dados necessário termos um arquivo ```.env``` contendo nossas variáveis de ambiente. Para isso o arquivo ```.env.example``` pode ser renomeado para ```.env``` que já contem a seguinte estrutura. Com dados padrões para uso da ```APPWEB```
+> Para executar a conexão com banco de dados necessário termos um arquivo ```.env``` contendo nossas variáveis de ambiente. Para isso o arquivo ```.env.example``` pode ser renomeado para ```.env``` que já contem a seguinte estrutura. Com dados padrões para uso.
 
 ```
-DB_NAME=<user>
-DB_PASS=<pass>
-DB_HOST=<host>
+DB_USER=admin
+DB_HOST=db-horus
+DB_NAME=horus
+DB_PASS=123456
+DB_PORT=5432
 ```
 ### PORT
 > Sete a variável de ambiente responsável pela porta. ```PORT_SERVER```
