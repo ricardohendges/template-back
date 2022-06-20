@@ -1,6 +1,6 @@
 # TEMPLATE-BACK
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)]
+![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
 
 # SETUP
 ### Conexão com banco de dados
