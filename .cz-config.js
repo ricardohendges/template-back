@@ -11,7 +11,7 @@ module.exports = {
     {value: '🔥 build',    name: '🔥 build:       Ajuste nos arquivos de build. (Docker, K8S)'},
     {value: '🔨 chore',    name: '🔨 chore:      Alterações no processo de compilação ou ferramentas auxiliares'},
     {value: '🚧 wip',      name: '🚧 wip:        Trabalho em progresso'},
-    {value: '🔖 version',  name: '🔖 version:    Trabalho em progresso'}
+    {value: '➕ version',  name: '🔖 version:    Ajuste de versões'}
   ],
   allowTicketNumber: true,
   isTicketNumberRequired: true,
@@ -20,10 +20,10 @@ module.exports = {
 
   messages: {
     type: 'Selecione o tipo de mudança que você quer commitar:',
-    ticketNumber: 'Informe a atividade JIRA resolvida:',
+    ticketNumber: 'Informe o ID da atividade resolvida:',
     subject: 'Escreva uma descrição breve da mudança:\n',
     breaking: 'Liste todas as mudanças úteis (optional):\n',
-    footer: 'Liste quaisquer problemas fechados por esta mudança (opcional). Ex.: #SDA-001\n',
+    footer: 'Liste quaisquer problemas fechados por esta mudança (opcional). Ex.: #ATV-001\n',
     confirmCommit: 'Tem certeza de que deseja prosseguir com o commit acima?'
   },
   allowCustomScopes: false,

@@ -1,7 +1,7 @@
 const template = require('../controllers/template')
 
-module.exports = (app, auth) => {
-    app.get('/template', auth, template.get
+module.exports = (app) => {
+    app.get('/template', template.get
         //#region Documentação
         /* #swagger.tags = ['TEMPLATE']
             #swagger.summary = 'Listagem'

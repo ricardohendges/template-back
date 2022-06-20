@@ -8,7 +8,7 @@ module.exports = {
     },
     parserPreset: {
         parserOpts: {
-            issuePrefixes: ['SDA-', 'DTM-', 'v-']
+            issuePrefixes: ['ATV-', 'v-']
         }
     },
 }

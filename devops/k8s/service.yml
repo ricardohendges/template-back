@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-api-access
+  name: service-api-PROJETO
   namespace: $K8S_NAMESPACE
 spec:
   type: ClusterIP
   clusterIP: None
   selector:
-    app: api-access
+    app: api-PROJETO
   ports:
     - name: http
       port: $PORT_SERVER

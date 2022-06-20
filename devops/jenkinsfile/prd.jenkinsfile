@@ -1,29 +1,28 @@
 pipeline {
   environment {
     // defaults = NÃO TEMOS NECESSIDADE DE MODIFICAR!
-    EMAIL_NOTIFICACAO = 'ricardo.hendges@grupodass.com.br'
+    EMAIL_NOTIFICACAO = 'ricardohe04@gmail.com'
     LOG = ''
 
-    K8S_HML_CREDENTIAL = 'dass-hml-kubeconfig'
+    K8S_HML_CREDENTIAL = 'hml-kubeconfig'
     K8S_YAML_PATH_HML = 'devops/k8s/deploy.yml'
 
-    REGISTER = 'harbor.dass.interno'
-    REGISTER_CREDENTIAL = 'dass-harbor-registry'
+    REGISTER = 'harbor.interno'
+    REGISTER_CREDENTIAL = 'harbor-registry'
 
     DOCKER_FILE = 'Dockerfile'
-    TAG_HML = "hml-"
     BRANCH_NAME = "dev"
 
     // Alterar conforme necessário!.
-    K8S_NAMESPACE = 'dass-lgpd'
-    PROJECT = 'api-dass'
-    DOCKER_IMAGE_NAME = 'api-access'
-    GIT_REPOSITORY = 'https://sga.grupodass.com.br/bitbucket/scm/api/api-access.git'
+    K8S_NAMESPACE = 'PROJETO'
+    PROJECT = 'PROJETO'
+    DOCKER_IMAGE_NAME = 'api-PROJETO'
+    GIT_REPOSITORY = 'https://github.com/ricardohendges/template-back.git'
 
     // Variáveis de ambiente, ajuste e inclua quando necessário!    
-    PORT_SERVER="3010"
+    PORT_SERVER="8000"
     NODE_ENV="dev"
-    APPLICATION_DOMAIN="	https://lgpdhml.grupodass.com.br"
+    URL_DOCUMENTACAO="/api/PROJETO"
   }
 
   agent {
@@ -42,10 +41,10 @@ pipeline {
       }
     }
     //===============================================================================
-    stage('Cloning from Bitbucket') {
+    stage('Cloning from GitHub') {
       steps {
         git branch: 'dev', 
-            credentialsId: 'Bitbucket', 
+            credentialsId: 'GitHub', 
             url: "${GIT_REPOSITORY}"
       }
     }
@@ -63,7 +62,7 @@ pipeline {
           env.IMAGE = "${REGISTER}/${env.IMG_NAME}"
 
           docker.withRegistry("http://${REGISTER}", "${REGISTER_CREDENTIAL}") {
-            DOCKER_IMAGE = docker.build(env.IMAGE, " . -f ./${DOCKER_FILE} --build-arg NODE_ENV=production")
+            DOCKER_IMAGE = docker.build(env.IMAGE, " . -f ./${DOCKER_FILE} --build-arg NODE_ENV=dev")
           }
           LOG = "${LOG} <br>Build da imagem: ${env.IMG_NAME}<br>"
         }

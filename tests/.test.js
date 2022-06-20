@@ -1,10 +1,9 @@
 require('./arquivo_test')
 
-const { httpServer, connection } = require('../src/index')
+const { httpServer } = require('../src/index')
 
 beforeAll(done => {
     console.log('Iniciando testes de integração com jest!')
-    connection.initialize().then(() => done())
 })
 
 afterAll(() => {

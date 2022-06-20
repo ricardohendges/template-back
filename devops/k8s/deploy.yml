@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deploy-api-access
+  name: deploy-api-PROJETO
   namespace: $K8S_NAMESPACE
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-access
+      app: api-PROJETO
   template:
     metadata:
       labels:
-        app: api-access
+        app: api-PROJETO
     spec:
       containers:
         - image: $IMAGE
           imagePullPolicy: IfNotPresent
-          name: api-access
+          name: api-PROJETO
           env:
             - name: APPLICATION_DOMAIN
               value: $APPLICATION_DOMAIN
@@ -27,45 +27,11 @@ spec:
             - name: URL_DOCUMENTACAO
               value: $URL_DOCUMENTACAO
             - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: dass-webapp
-                  key: user
+              value: $DB_NAME
             - name: DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: dass-webapp
-                  key: password
+              value: $DB_PASS
             - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: dass-webapp
-                  key: connect-string
-            - name: REDIS_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: redis
-                  key: host
-            - name: REDIS_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: redis
-                  key: port
-            - name: CERT_AUTH
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-auth
-                  key: cert
-            - name: CERT
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-perfil
-                  key: cert
-            - name: PRIVATE
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-perfil
-                  key: private
+              value: DB_HOST
           resources: {}
           ports:
             - name: http
@@ -74,4 +40,4 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       imagePullSecrets: 
-        - name: dass-registry
+        - name: registry

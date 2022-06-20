@@ -1,4 +1,4 @@
-const { utilsdb } = require('mdl-oracle')
+const { utilsdb } = require('bibliotecaBanco')
 
 const sql_template = ''
 

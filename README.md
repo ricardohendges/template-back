@@ -12,9 +12,6 @@ DB_NAME=<user>
 DB_PASS=<pass>
 DB_HOST=<host>
 ```
-### CERT / PRIVATE / CERT_AUTH
-
-> Para a validação de autenticação é necessário a variavel de ambiente ```CERT_AUTH```. Caso o projeto tenha a necessidade de utilizar um cookie com pemissões de acesso, é necessário as variaveis de ambiente ```CERT``` e ```PRIVATE```.
 ### PORT
 > Sete a variável de ambiente responsável pela porta. ```PORT_SERVER```
 ### CORS

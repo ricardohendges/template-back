@@ -7,11 +7,11 @@ const GATEWAY = process.env.PORT_GATEWAY || 8000
 const doc = {
     info: {
         version: '1.0.0',
-        title: 'API TEMPLATE DASS',
-        description: 'Documentação da API TEMPLATE DASS'
+        title: 'API TEMPLATE',
+        description: 'Documentação da API TEMPLATE'
     },
     host: `${HOST}${GATEWAY ? ':' : ''}${GATEWAY}`,
-    basePath: process.env.URL_DOCUMENTACAO,
+    basePath: process.env.URL_DOCUMENTACAO||'',
     schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json']
@@ -22,11 +22,11 @@ const endpointsFiles = ['./src/routes/template.js']
 
 swaggerAutogen(outputFile, endpointsFiles, doc)
 
-fs.readFile('src/views/swagger/index.html', 'utf8', function (err,data) {
+fs.readFile('src/views/index.html', 'utf8', function (err,data) {
     if (err) return console.log(err)
     let linhas = data.split('\n').filter(a => a.includes('url:'))
-    let result = data.replace(linhas, `        url: "${process.env.URL_DOCUMENTACAO}/docs/swagger.yaml", `)
-    fs.writeFile('src/views/swagger/index.html', result, 'utf8', function (err) {
+    let result = data.replace(linhas, `          url: "${process.env.URL_DOCUMENTACAO||''}/docs/swagger.yaml", `)
+    fs.writeFile('src/views/index.html', result, 'utf8', function (err) {
         if (err) return console.log(err)
     })
 })
