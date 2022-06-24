@@ -1,4 +1,4 @@
-# TEMPLATE-BACK
+# TEMPLATE-BACK-HORUS
 
 ![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
 
